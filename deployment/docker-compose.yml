@@ -3,13 +3,13 @@ services:
         zookeeper:
                 image: wurstmeister/zookeeper
                 ports:
-                        -"2181"
+                        - "2181"
                 hostname: zookeeper
         kafka:
                 image: wurstmeister/kafka
                 command: [start-kafka.sh]
                 ports:
-                        -"9092:9092"
+                        - "9092:9092"
                 hostname: kafka
                 environment:
                         KAFKA_CREATE_TOPICS: "events:1:1" # topic:partition:replicas
@@ -20,9 +20,9 @@ services:
                         KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
                         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
                 volumes:
-                        -/var/run/docker.sock:/var/run/docker.sock
+                        - /var/run/docker.sock:/var/run/docker.sock
                 depends_on:
-                        -"zookeeper"
+                        - "zookeeper"
         db:
                 image: mysql:5.7
                 restart: always
@@ -36,13 +36,13 @@ services:
                         MYSQL_ROOT_PASSWORD: 'password'
                 ports:
                         # <Port exposed> : < MySQL Port running inside container>
-                        -'3306:3306'
+                        - '3306:3306'
                 expose:
                         # Opens port 3306 on the container
-                        -'3306'
+                        - '3306'
                         # Where our data will be persisted
                 volumes:
-                        -my-db:/var/lib/mysql
+                        - my-db:/var/lib/mysql
 # Names our volume
 volumes:
         my-db:
