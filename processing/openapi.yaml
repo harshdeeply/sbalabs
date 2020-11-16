@@ -22,9 +22,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  $ref: '#/components/schemas/ReadingStats'
+                type: array
+                $ref: '#/components/schemas/ReadingStats'
         '400':
           description: Invalid request
           content:
@@ -51,4 +50,3 @@ components:
           max_num_of_item:
             type: number
             example: 100
-        type: object
