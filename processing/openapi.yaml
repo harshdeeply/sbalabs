@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  description: This API receives events from software application
+  version: "1.0.0"
+  title: Laundry Service Request
+  contact:
+    email: h2@my.bcit.ca
+tags:
+  - name: laundry providers
+    description: Secured laundry-provider-only sessions
+  - name: users
+    description: Secured user-only sessions
+paths:
+  /stats:
+    get:
+      summary: gets event stats
+      operationId: app.get_stats
+      description: get requested service and reported service stats
+      responses:
+        '200':
+          description: Successfully returned a list of services
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/ReadingStats'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+    schemas:
+      ReadingStats:
+        required:
+        - num_request_service
+        - num_reported_service
+        - max_num_of_item
+        properties:
+          num_request_service:
+            type: integer
+            example: 50000
+          num_reported_service:
+            type: integer
+            example: 50000
+          max_num_of_item:
+            type: number
+            example: 100
+        type: object

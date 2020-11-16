@@ -1,0 +1,174 @@
+openapi: 3.0.0
+info:
+  description: This API receives events from software application
+  version: "1.0.0"
+  title: Laundry Service Request
+  contact:
+    email: h2@my.bcit.ca
+tags:
+  - name: laundry providers
+    description: Secured laundry-provider-only sessions
+  - name: users
+    description: Secured user-only sessions
+paths:
+  /laundryRegister:
+    get:
+      tags:
+        - laundry providers
+      summary: Gets the new laundry provider information
+      operationId: app.get_report_service_reading
+      description: Gets the new laundry provider information
+      parameters:
+          - name: index
+            in: query
+            description: Gets the reporting service at index value
+            schema:
+              type: integer
+              example: 100
+      responses:
+        '200':
+          description: Successfully returned a list of reported services
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ReportService'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+
+  /requestService:
+    get:
+      tags:
+        - users
+      summary: Gets the new user information
+      operationId: app.get_request_service_reading
+      description: Gets the new user information
+      parameters:
+          - name: index
+            in: query
+            description: Get request service at the index value
+            schema:
+              type: integer
+              example: 100
+      responses:
+        '200':
+          description: Successfully returned a list of requested services
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RequestService'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Not found
+components:
+  schemas:
+    ReportService:
+      type: object
+      required:
+        - businessID
+        - serviceOffered
+        - openingHours
+        - closingHours
+        - phoneNumber
+        - streetAddress
+      properties:
+        businessID:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851 
+        serviceOffered:
+          type: string
+          example: Dry clean
+        openingHours:
+          type: string
+          format: date-time
+          example: 2020-08-29T09\:12\:33.001Z
+        closingHours:
+          type: string
+          format: date-time
+          example: 2020-08-29T09\:12\:33.001Z
+        phoneNumber:
+          type: string
+          pattern: '^\d{3}-\d{3}-\d{4}$'
+          example: 123-456-7890
+        streetAddress:
+          $ref: '#/components/schemas/StreetAddress'
+    RequestService:
+      type: object
+      required:
+        - serviceType
+        - laundryType
+        - numberOfItems
+        - phoneNumber
+        - emailAddress
+        - streetAddress
+      properties:
+        serviceType:
+          type: string
+          example: Dry Clean
+        laundryType:
+          type: string
+          example: Bridal dress
+        numberOfItems:
+          type: number
+          example: 3
+        phoneNumber:
+          type: string
+          pattern: '^\d{3}-\d{3}-\d{4}$'
+          example: 123-456-7890
+        emailAddress:
+          type: string
+          format: email
+          example: email@example.com
+        streetAddress:
+          $ref: '#/components/schemas/StreetAddress'
+    StreetAddress:
+      type: object
+      required:
+        - streetNumber
+        - city
+        - province
+        - country
+        - postalCode
+      properties:
+        streetNumber:
+          type: string
+          example: 12345 678 St
+        city:
+          type: string
+          example: Vancouver
+        province:
+          type: string
+          example: British Columbia
+        country:
+          type: string
+          example: Canada
+        postalCode:
+          type: string
+          example: A1B2C3

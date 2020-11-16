@@ -1,0 +1,13 @@
+openapi: 3.0.0
+version: 1
+datastore:
+  user: #localDB username
+  password: #localDB password
+  hostname: #localDB Hostname
+  port: 3306
+  db: events
+  filename: events.json
+scheduler:
+  period_sec: 5
+eventstore:
+  url: http://localhost:8090
