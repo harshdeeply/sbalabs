@@ -9,6 +9,7 @@ import datetime
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread
+from flask_cors import CORS, cross_origin
 import json
 
 with open('app_conf.yml', 'r') as f:
@@ -67,6 +68,8 @@ def get_request_service_reading(index):
     return { "message": "Not found" }, 404
 
 app = connexion.FlaskApp(__name__, specification_dir='')
+CORS(app.app)
+app.app.config['CORS_HEADERS'] = 'Content-Type'
 app.add_api("openapi.yaml", strict_validation=True)
 
 if __name__ == "__main__":
