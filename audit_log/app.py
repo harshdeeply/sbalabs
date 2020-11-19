@@ -1,8 +1,6 @@
 import connexion
 from connexion import NoContent
 import yaml
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 import logging
 import logging.config
 import datetime
