@@ -8,21 +8,21 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 import yaml
 import requests
-from flask_cors import CORS, cross_origin
 
-def initJsonFile():
-    if os.path.isfile("events.json") == False:
-        with open("events.json", "w") as jsonfile:
-            json.dump({"stats": []}, jsonfile)
+with open("app_conf.yaml", "r") as f:
+    app_config = yaml.safe_load(f.read())
 
+with open("log_conf.yml", "r") as f:
+    log_config = yaml.safe_load(f.read())
+    logging.config.dictConfig(log_config)
 
-def write_json(data, filename="events.json"):
-    with open(filename, "w") as f:
+def write_json(data):
+    with open(app_config["datastore"]["filename"], "w") as f:
         json.dump(data, f, indent=4)
 
 
 def writeJsonFile(body):
-    with open("events.json", "r+") as jsonfile:
+    with open(app_config["datastore"]["filename"], "r+") as jsonfile:
         data = json.load(jsonfile)
         temp = data["stats"]
         if len(temp) == 0:
@@ -31,13 +31,11 @@ def writeJsonFile(body):
             temp[0] = body
     write_json(data)
 
+def initJsonFile():
+    if os.path.isfile(app_config["datastore"]["filename"]) == False:
+        with open("events.json", "w") as jsonfile:
+            json.dump({"stats": []}, jsonfile)
 
-with open("app_conf.yaml", "r") as f:
-    app_config = yaml.safe_load(f.read())
-
-with open("log_conf.yml", "r") as f:
-    log_config = yaml.safe_load(f.read())
-    logging.config.dictConfig(log_config)
 
 logger = logging.getLogger("basicLogger")
 
@@ -76,6 +74,7 @@ def populate_stats():
         and response_report_service_json != []
         and response_request_service_json != []
     ):
+        # print("In try")
         try:
             with open(app_config["datastore"]["filename"]) as r:
                 stats = json.load(r)
@@ -90,6 +89,7 @@ def populate_stats():
         logger.info("received events")
         num_request_service = len(response_request_service_json) + num_request_service_j
         num_report_service = len(response_report_service_json) + num_report_service_j
+        print(response_request_service_json)
         max_num_of_item = max(
             [x["numberOfItems"] for x in response_request_service_json]
         )
@@ -133,8 +133,6 @@ def init_scheduler():
 
 
 app = connexion.FlaskApp(__name__, specification_dir="")
-CORS(app.app)
-app.app.config['CORS_HEADERS'] = 'Content-Type'
 app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
 
 initJsonFile()
