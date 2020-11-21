@@ -25,6 +25,11 @@ with open(log_conf_file, "r") as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
+logger = logging.getLogger("basicLogger")
+
+logger.info("App Conf File: %s" % app_conf_file)
+logger.info("Log Conf File: %s" % log_conf_file)
+
 def write_json(data):
     with open(app_config["datastore"]["filename"], "w") as f:
         json.dump(data, f, indent=4)
@@ -44,12 +49,6 @@ def initJsonFile():
     if os.path.isfile(app_config["datastore"]["filename"]) == False:
         with open("events.json", "w") as jsonfile:
             json.dump({"stats": []}, jsonfile)
-
-
-logger = logging.getLogger("basicLogger")
-
-logger.info("App Conf File: %s" % app_conf_file)
-logger.info("Log Conf File: %s" % log_conf_file)
 
 def get_stats():
     """ Gets stats """
