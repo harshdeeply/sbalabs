@@ -1,8 +1,8 @@
 openapi: 3.0.0
 version: 1
 datastore:
-  user: "" # RemoteDB username
-  password: "" # RemoteDB password
+  user: "user" # RemoteDB username
+  password: "password" # RemoteDB password
   hostname: mysbalab.eastus2.cloudapp.azure.com
   port: 3306
   db: events

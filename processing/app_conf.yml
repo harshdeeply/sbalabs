@@ -1,9 +1,9 @@
 openapi: 3.0.0
 version: 1
 datastore:
-  user: #localDB username
-  password: #localDB password
-  hostname: #localDB Hostname
+  user: "user"
+  password: "password"
+  hostname: "localhost"
   port: 3306
   db: events
   filename: events.json
