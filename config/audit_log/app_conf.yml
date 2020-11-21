@@ -1,0 +1,10 @@
+version: 1 
+eventstore1: 
+  url: http://localhost:8090/laundryRegister 
+eventstore2: 
+  url: http://localhost:8090/requestService
+
+events:
+  hostname: mysbalab.eastus2.cloudapp.azure.com
+  port: 9092
+  topic: events
