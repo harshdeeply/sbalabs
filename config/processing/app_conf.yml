@@ -6,7 +6,7 @@ datastore:
   hostname: "localhost"
   port: 3306
   db: events
-  filename: events.json
+  filename: /data/data.json
 scheduler:
   period_sec: 5
 eventstore:

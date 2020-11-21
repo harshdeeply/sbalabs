@@ -47,13 +47,13 @@ def writeJsonFile(body):
 
 def initJsonFile():
     if os.path.isfile(app_config["datastore"]["filename"]) == False:
-        with open("events.json", "w") as jsonfile:
+        with open("data.json", "w") as jsonfile:
             json.dump({"stats": []}, jsonfile)
 
 def get_stats():
     """ Gets stats """
     logger.info("getting stats request")
-    with open("events.json") as r:
+    with open(app_config["datastore"]["filename"]) as r:
         stats = json.load(r)
     logger.info("got following stats: " + str(stats["stats"]))
     logger.info("completed the stats request")
