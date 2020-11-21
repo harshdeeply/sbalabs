@@ -2,8 +2,8 @@ import mysql.connector
 
 db_conn = mysql.connector.connect(
     host="mysbalab.eastus2.cloudapp.azure.com",
-    user="" # RemoteDB username,
-    password="" # RemoteDB password,
+    user="user", # RemoteDB username
+    password="password", # RemoteDB password
     database="events",
     auth_plugin="mysql_native_password",
 )
