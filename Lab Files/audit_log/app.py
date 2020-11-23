@@ -81,7 +81,7 @@ def get_request_service_reading(index):
 app = connexion.FlaskApp(__name__, specification_dir='')
 CORS(app.app)
 app.app.config['CORS_HEADERS'] = 'Content-Type'
-app.add_api("openapi.yaml", strict_validation=True)
+app.add_api("openapi.yaml", base_path="/audit_log", strict_validation=True, validate_responses=True)
 
 if __name__ == "__main__":
     app.run(port=8110)
